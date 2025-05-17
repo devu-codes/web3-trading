@@ -34,12 +34,14 @@ contract Token {
         public
         returns (bool success)
     {
-        // Deduct the amount from the sender's balance
+        require(balanceOf[msg.sender] >= _value, "Insufficient balance");
+        require(_to != address(0), "Invalid address");
+        
         balanceOf[msg.sender] = balanceOf[msg.sender] - _value;
-        // Add the amount to the recipient's balance
         balanceOf[_to] = balanceOf[_to] + _value;
-        // Emit a transfer event
+        
         emit Transfer(msg.sender, _to, _value);
+        
         return true;
     }
     
